@@ -58,15 +58,16 @@ Context Builder → RAG Pipeline → LLM Response
 ```bash
 git clone https://github.com/suhasthadaka22/smart-student-success-dashboard.git
 cd smart-student-success-dashboard
-
-2️⃣ Setup Virtual Environment
+```
+### 2️⃣ Setup Virtual Environment
 ```bash
 pip install -r requirements.txt
-3️⃣ Install requirements
+```
+### 3️⃣ Install requirements
 ```bash
 pip install -r requirements.txt
-
-4️⃣ Configure .env
+```
+### 4️⃣ Configure .env
 LLM_PROVIDER=groq
 EMBED_PROVIDER=ollama
 
@@ -76,10 +77,12 @@ GROQ_LLM_MODEL=llama-3.1-8b-instant
 OLLAMA_LLM_MODEL=mistral
 OLLAMA_EMBED_MODEL=nomic-embed-text
 
-5️⃣ Run App
+### 5️⃣ Run App
+```bash
 streamlit run frontend/app.py
+```
 
-📸 Screenshots
+### 📸 Screenshots
 ![alt text](images/Log_in.png)
 ![alt text](images/Dashboard.png)
 ![alt text](images/Attendance.png)
@@ -88,7 +91,7 @@ streamlit run frontend/app.py
 ![alt text](images/Lib+Events.png)
 ![alt text](images/Mentor_Response.png)
 
-🧪 Example Queries to Try
+### 🧪 Example Queries to Try
 | Question                            | Purpose                             |
 | ----------------------------------- | ----------------------------------- |
 | `Fix my attendance`                 | Attendance plan & class requirement |
@@ -97,7 +100,7 @@ streamlit run frontend/app.py
 | `Summarize my academic performance` | Instant progress analysis           |
 | `What CGPA can I target?`           | Motivation and prediction           |
 
-🧱 Future Enhancements
+### 🧱 Future Enhancements
 
 Admin & Faculty portals
 
@@ -111,7 +114,7 @@ Notification & timetable module
 
 Voice AI assistant
 
-💼 Author
+### 💼 Author
 
 T. Suhas
 AI/ML Engineer | GenAI Developer | Full-Stack Enthusiast
@@ -120,10 +123,10 @@ AI/ML Engineer | GenAI Developer | Full-Stack Enthusiast
 
 ⭐ Portfolio launching soon
 
-⭐ Support
+###⭐ Support
 
 If you like this project, consider starring ⭐ the repo — it helps visibility and motivates development! 🙌
 
-🌟 Final Note
+###🌟 Final Note
 
 This project demonstrates practical GenAI engineering with real-world RAG workflows and structured academic insight automation. Built for learning, portfolio value, and interview demonstration.
