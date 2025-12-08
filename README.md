@@ -68,6 +68,7 @@ pip install -r requirements.txt
 pip install -r requirements.txt
 ```
 ### 4️⃣ Configure .env
+```bash
 LLM_PROVIDER=groq
 EMBED_PROVIDER=ollama
 
@@ -76,6 +77,7 @@ GROQ_LLM_MODEL=llama-3.1-8b-instant
 
 OLLAMA_LLM_MODEL=mistral
 OLLAMA_EMBED_MODEL=nomic-embed-text
+```
 
 ### 5️⃣ Run App
 ```bash
