@@ -1,81 +1,72 @@
-🎓 Smart Student Success Dashboard
-GenAI-powered Academic Mentor • RAG • ChromaDB • LangChain • Groq / Ollama LLM
-🚀 Overview
+<h1 align="center">🎓 Smart Student Success Dashboard</h1>
+<h3 align="center">GenAI-powered Academic Mentor • RAG • ChromaDB • LangChain • Groq / Ollama</h3>
 
-The Smart Student Success Dashboard is an AI-powered academic assistant designed to help students track their performance, analyze weaknesses, and receive personalized success recommendations.
-It combines structured analytics (attendance, marks, GPA, events, resources) with Generative AI + RAG to provide actionable mentoring guidance based on real student data, not generic responses.
+---
 
-The system demonstrates a real-world application of modern AI engineering:
+## 🚀 Overview
+The **Smart Student Success Dashboard** is an AI-powered academic performance platform that enables students to monitor their attendance, marks, GPA trends, and receive **personalized recommendations** from a **GenAI Mentor** powered by **RAG** (Retrieval-Augmented Generation).  
+It provides context-aware insights based on real student data, not generic AI responses.
 
-RAG workflow (chunking → embeddings → vector search → grounded response)
+---
 
-LLM-agnostic architecture (Groq, Gemini, Ollama interchangeable via .env)
+## 🧠 Key Features
+| Feature | Description |
+|--------|------------|
+| 🔐 Student Login | Simple authentication (ID = password for demo) |
+| 📊 Dashboard Analytics | Attendance, marks, charts, performance KPIs |
+| 📉 Attendance Insights | Class requirements to reach threshold |
+| 🎯 Weak Subject Detection | Topic-based improvement suggestions |
+| 🤖 GenAI Mentor | Personalized responses based on RAG |
+| 🧠 Intent-aware queries | “Fix attendance”, “Improve DBMS”, “Make study plan” |
+| 🗂 Digital Library | Recommended PDFs, notes, YouTube playlists |
+| 🗓 Event Suggestions | Smart academic event recommendations |
+| 🧩 LLM Agility | Switch between Groq / Gemeni / Ollama via `.env` |
+| 🔁 Multi-student dataset | Different results for different profiles |
 
-Streamlit multi-page dashboard with authentication
+---
 
-Chroma vector database for semantic search
+## 🧠 Tech Stack
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Streamlit |
+| Backend | Python, SQLAlchemy |
+| Database | SQLite |
+| Vector DB | ChromaDB |
+| LLM | Groq (Llama-3.1-8B-Instant) / Ollama (Mistral) |
+| Embeddings | nomic-embed-text |
+| RAG Framework | LangChain |
+| Architecture | Modular, Provider-agnostic AI Layer |
 
-SQLite backend with seed academic data & CRUD layer
+---
 
-🧠 Key Features
-Category	Description
-🔐 Student Login	Secure access (student_id as username & password)
-📊 Dashboard Analytics	Attendance, marks, performance trends, GPA chart
-📉 Attendance Insights	Threshold checks and “how many more classes needed” guidance
-🎯 Academic Performance	Weak subject detection with topic-wise recommendations
-🤖 GenAI Mentor	Personalized suggestions using RAG + student context
-🧠 Intent-aware AI	"Fix attendance", "Improve weak subject", "Study plan", etc.
-📚 Digital Library	Recommended PDFs / Notes / YouTube resources
-🗓 Event Suggestion Cards	Workshop/hackathon opportunities relevant to weaknesses
-🔄 Multi-student dataset	Different insights for different profiles
-🧩 LLM-switchable	Swap between Groq, Gemini, Ollama with one config
-🧠 Tech Stack
-Layer	Tools
-Frontend	Streamlit (Multi-Page UI + Charts + Components)
-Backend	Python, SQLAlchemy CRUD
-Database	SQLite
-GenAI / LLM	Groq (Llama-3) / Ollama (Mistral) / Gemini-ready
-RAG	LangChain, ChromaDB, Semantic Search
-Embeddings	nomic-embed-text
-Vector Store	Chroma persistent DB
-Deployment Ready	Local / Cloud compatible
-🏗 Architecture
-Frontend (Streamlit UI)
-│
-├── Login + Dashboard + Attendance + Marks + Insights + Mentor Chat
-│
-Backend Layer
-│
-├── SQLite DB (Students, Attendance, Marks, GPA, Events, Library Resources)
-│
-├── CRUD Service (SQLAlchemy)
-│
-├── AI Layer (Mentor Engine)
-│     ├── Context Builder (student data → rich text)
-│     ├── RAG Pipeline (vector search from Chroma)
-│     ├── Embeddings (Ollama or Gemini)
-│     └── Chat LLM (Groq / Gemini / Ollama)
-│
-Retrieval Documents (study tips, attendance rules, event descriptions)
-│
-Vector DB (Chroma with persisted embeddings)
-│
-Final Response → Streamlit UI
+## 🏗 System Architecture
+Streamlit UI (Dashboard + Chat)
+|
+Backend Controller
+|
+Student Data + Attendance + Marks (SQLite)
+|
+Context Builder → RAG Pipeline → LLM Response
+(Dynamic context) (ChromaDB) (Groq / Ollama)
 
-🔧 Installation & Setup
-Clone repo
+
+---
+
+## 🔧 Installation & Setup
+
+### 1️⃣ Clone repository
+```bash
 git clone https://github.com/suhasthadaka22/smart-student-success-dashboard.git
 cd smart-student-success-dashboard
 
-Create & activate venv
-python -m venv venv
-venv\Scripts\activate
-
-Install dependencies
+2️⃣ Setup Virtual Environment
+```bash
+pip install -r requirements.txt
+3️⃣ Install requirements
+```bash
 pip install -r requirements.txt
 
-⚙ Configure LLM Provider (Groq recommended)
-Update .env file
+4️⃣ Configure .env
 LLM_PROVIDER=groq
 EMBED_PROVIDER=ollama
 
@@ -85,77 +76,54 @@ GROQ_LLM_MODEL=llama-3.1-8b-instant
 OLLAMA_LLM_MODEL=mistral
 OLLAMA_EMBED_MODEL=nomic-embed-text
 
-
-To switch to Ollama only:
-
-LLM_PROVIDER=ollama
-EMBED_PROVIDER=ollama
-
-▶ Run Application
+5️⃣ Run App
 streamlit run frontend/app.py
 
 📸 Screenshots
-
-Login & Student Profile:
 ![alt text](images/Log_in.png)
-
-Dashboard View:
 ![alt text](images/Dashboard.png)
-
-Attendance Insights:
 ![alt text](images/Attendance.png)
-
-Marks Breakdown:
-![alt text](images/Marks.png)
-
-GPA Trend Chart:
-![alt text](images/GPA_Trend.png)
-
-Digital Library + Event Cards:
+![alt text](images/Marks.png) 
+![alt text](images/GPA_Trend.png)   
 ![alt text](images/Lib+Events.png)
-
-AI Mentor Chat:
 ![alt text](images/Mentor_Response.png)
 
-🧪 Demo Queries to Try
-Type	Example
-Attendance Fix	Fix my attendance
-Weak Subject	How do I improve my OS performance?
-Study Plan	Give me a 7-day study strategy for upcoming mid exams
-GPA Target	What CGPA can I target this semester?
-Personalized	Summarize my academic situation in bullet points
+🧪 Example Queries to Try
+| Question                            | Purpose                             |
+| ----------------------------------- | ----------------------------------- |
+| `Fix my attendance`                 | Attendance plan & class requirement |
+| `Help me improve DBMS`              | Subject-weakness guidance           |
+| `Make a 7-day study plan`           | Structured study roadmap            |
+| `Summarize my academic performance` | Instant progress analysis           |
+| `What CGPA can I target?`           | Motivation and prediction           |
 
-📈 Future Upgrades:
+🧱 Future Enhancements
 
-Admin & Faculty dashboard
+Admin & Faculty portals
 
-Hybrid search (BM25 + semantic)
+Hybrid search (BM25 + embeddings)
 
-RAG evaluation & hallucination guardrails
+RAG evaluation & guardrails
 
-Deployment using Docker + Cloud Run/EC2
+Docker & cloud deployment
 
-Student notifications + timetable module
+Notification & timetable module
 
-Voice-enabled mentor
-
-📄 License
-
-MIT License
+Voice AI assistant
 
 💼 Author
 
 T. Suhas
-🚀 ML / AI Enthusiast | Full Stack Learner | GenAI Developer
+AI/ML Engineer | GenAI Developer | Full-Stack Enthusiast
 📍 Hyderabad, India
-🔗 Portfolio Coming Soon
-🔗 LinkedIn: www.linkedin.com/in/suhas-thadaka
+🔗 LinkedIn: https://linkedin.com/in/suhas-thadaka
+
+⭐ Portfolio launching soon
 
 ⭐ Support
 
-If you like this project, please star the repository 🙌
-It means a lot and helps visibility!
+If you like this project, consider starring ⭐ the repo — it helps visibility and motivates development! 🙌
 
-🌟 Final Thoughts
+🌟 Final Note
 
-This project demonstrates practical GenAI engineering — combining structured academic data with retrieval-augmented generation to create personalized AI-driven mentoring. Not just a chatbot, but a real product with analytics, RAG, and performance-based guidance.
+This project demonstrates practical GenAI engineering with real-world RAG workflows and structured academic insight automation. Built for learning, portfolio value, and interview demonstration.
