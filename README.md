@@ -125,10 +125,10 @@ AI/ML Engineer | GenAI Developer | Full-Stack Enthusiast
 
 ⭐ Portfolio launching soon
 
-###⭐ Support
+### ⭐ Support
 
 If you like this project, consider starring ⭐ the repo — it helps visibility and motivates development! 🙌
 
-###🌟 Final Note
+### 🌟 Final Note
 
 This project demonstrates practical GenAI engineering with real-world RAG workflows and structured academic insight automation. Built for learning, portfolio value, and interview demonstration.
