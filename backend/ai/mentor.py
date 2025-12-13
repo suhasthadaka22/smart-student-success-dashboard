@@ -11,7 +11,6 @@ from backend.ai.vector_store import get_vectorstore
 from backend.ai.llm_client import get_chat_llm
 from langchain_core.messages import SystemMessage, HumanMessage
 
-
 def detect_query_type(user_query: str) -> str:
     """Very simple intent detection based on keywords."""
     q = user_query.lower()
@@ -68,7 +67,43 @@ def genai_mentor_answer(session: Session, student_id: str, user_query: str) -> s
     # 1. Detect intent
     query_type = detect_query_type(user_query)
 
-    # 2. Choose appropriate student context
+    # 2. Handle GENERAL queries separately (KEY CHANGE)
+    if query_type == "general":
+        # Light academic summary only (2–3 lines worth of data)
+        academic_hint = build_attendance_context(session, student_id)
+
+        system_prompt = f"""
+You are a helpful and neutral AI assistant.
+
+Answer the user's question clearly and factually.
+
+After answering the question, add a SHORT academic note
+(ONLY 2–3 lines) using the information below.
+Do NOT give detailed breakdowns, percentages, or long lists.
+
+Academic summary (for brief closing only):
+{academic_hint}
+
+Rules:
+- The main answer must NOT be about academics.
+- The academic part must be concise (max 2–3 lines).
+- Do NOT invent or change any numbers.
+- Do NOT mention marks unless explicitly asked.
+- Do NOT add signatures or placeholders.
+"""
+
+        llm = get_chat_llm()
+        messages = [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=user_query),
+        ]
+        response = llm.invoke(messages)
+        return response.content.strip()
+
+    # -------------------------------
+    # Academic queries (existing logic)
+    # -------------------------------
+
     if query_type == "attendance":
         student_context = build_attendance_context(session, student_id)
     elif query_type in ("marks", "gpa"):
@@ -76,14 +111,12 @@ def genai_mentor_answer(session: Session, student_id: str, user_query: str) -> s
     else:
         student_context = build_full_student_context(session, student_id)
 
-    # 3. Retrieve relevant docs via RAG
+    # 3. RAG only for academic queries
     vectorstore = get_vectorstore()
     retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
-    # For LangChain >= 0.3, retrievers are Runnables
-    docs = retriever.invoke(user_query)   # ✅ returns list[Document]
+    docs = retriever.invoke(user_query)
     rag_context = "\n\n".join(d.page_content for d in docs)
 
-    # 4. Build system prompt with specialization
     focus_instructions = build_focus_instructions(query_type)
 
     system_prompt = f"""
@@ -100,23 +133,18 @@ User's question:
 
 {focus_instructions}
 
-VERY IMPORTANT RULES (do NOT break these):
-- You MUST NOT invent or change any numeric values (percentages, number of classes, scores).
-- Only use the exact numbers and phrases that appear in "Student data" above for attendance and marks.
-- Especially for attendance, when you talk about "how many more classes" a student needs,
-  you must copy the phrase after "needs approx" from the student data WITHOUT changing the number.
-- If a number is not provided in Student data or College resources, say "not specified" instead of guessing.
-- Do not include any closing statements, sign-offs, signatures, or placeholders such as [Your Name] or [Your Position]. End the response naturally.
-- Structure the answer with clear sections and bullet points so the student can follow the action steps easily.
+VERY IMPORTANT RULES:
+- You MUST NOT invent or change any numeric values.
+- Use only numbers present in Student data or RAG context.
+- Do not include signatures or placeholders.
+- Structure the answer clearly with bullet points and sections.
 """
 
-    llm = get_chat_llm()  # or whatever model you configured
-
+    llm = get_chat_llm()
     messages = [
         SystemMessage(content=system_prompt),
         HumanMessage(content=user_query),
     ]
 
     response = llm.invoke(messages)
-    answer_text = response.content.strip()
-    return answer_text
+    return response.content.strip()

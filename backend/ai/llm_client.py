@@ -2,6 +2,9 @@
 import os
 from dotenv import load_dotenv
 import os.path as osp
+from sentence_transformers import SentenceTransformer
+from langchain.embeddings.base import Embeddings
+
 
 BASE_DIR = osp.abspath(osp.join(osp.dirname(__file__), "..", ".."))
 load_dotenv(osp.join(BASE_DIR, ".env"))
@@ -11,7 +14,7 @@ EMBED_PROVIDER = os.getenv("EMBED_PROVIDER", "openai")
 
 # model names
 OPENAI_EMBED_MODEL = os.getenv("OPENAI_EMBED_MODEL", "text-embedding-3-small")
-GEMINI_EMBED_MODEL = os.getenv("GEMINI_EMBED_MODEL", "text-embedding-3-large")
+GEMINI_EMBED_MODEL = os.getenv("GEMINI_EMBED_MODEL", "models/embedding-001")
 OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 
 def get_chat_llm():
@@ -49,15 +52,35 @@ def get_embedding_model():
         # Google (Gemini) embeddings via LangChain Google wrapper
         from langchain_google_genai import GoogleGenerativeAIEmbeddings
         api_key = os.getenv("GOOGLE_API_KEY")
+        model=os.getenv("GEMINI_EMBED_MODEL")
         if not api_key:
             raise RuntimeError("GOOGLE_API_KEY not set in environment")
-        return GoogleGenerativeAIEmbeddings(model=GEMINI_EMBED_MODEL)
+        return GoogleGenerativeAIEmbeddings(model=model)
+
+    if provider == "local":
+        return LocalSentenceTransformerEmbeddings(
+            model_name="sentence-transformers/all-mpnet-base-v2"
+        )
 
     # fallback: Ollama (local)
     if provider == "ollama":
         from langchain_ollama import OllamaEmbeddings
-        return OllamaEmbeddings(model=OLLAMA_EMBED_MODEL)
+        return OllamaEmbeddings(model=os.getenv("OLLAMA_EMBED_MODEL"))
 
     # final fallback to OpenAI
     from langchain.embeddings import OpenAIEmbeddings
     return OpenAIEmbeddings(model=OPENAI_EMBED_MODEL)
+
+class LocalSentenceTransformerEmbeddings(Embeddings):
+    def __init__(self, model_name="sentence-transformers/all-mpnet-base-v2"):
+        self.model = SentenceTransformer(model_name)
+
+    def embed_documents(self, texts):
+        return self.model.encode(
+            texts,
+            show_progress_bar=True,
+            convert_to_numpy=True
+        ).tolist()
+
+    def embed_query(self, text):
+        return self.model.encode(text, convert_to_numpy=True).tolist()
